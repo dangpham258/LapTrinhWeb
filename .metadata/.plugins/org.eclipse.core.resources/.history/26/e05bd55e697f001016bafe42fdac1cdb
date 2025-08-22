@@ -33,6 +33,14 @@ public class CreateCookie extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
+		String ten = request.getParameter("ten");
+		String holot = request.getParameter("holot");
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<br/>" + "Họ lót: " + holot + "<br/>");
+		out.println("Tên: " + ten);
+
 	}
 
 	/**
