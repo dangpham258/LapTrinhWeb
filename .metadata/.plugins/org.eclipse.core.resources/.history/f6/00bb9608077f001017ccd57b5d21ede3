@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Form nhập thông tin</title>
+</head>
+<body>
+    <form action="home" method="GET">
+        Tên: <input type="text" name="ten" /> <br />
+        Họ lót: <input type="text" name="holot" /> <br />
+        <input type="submit" value="Submit" />
+    </form>
+
+	<form action="createcookie" method="GET">
+		Tên: <input type="text" name="ten"> <br /> 
+		Họ lót: 
+		<input type="text" name="holot" /> <input type="submit" value="Submit" />
+	</form>
+</body>
+</html>
