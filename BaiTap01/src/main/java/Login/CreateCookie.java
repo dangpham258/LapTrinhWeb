@@ -15,56 +15,68 @@ import java.io.PrintWriter;
 @WebServlet("/CreateCookie")
 public class CreateCookie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CreateCookie() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		  String ten = request.getParameter("ten"); String holot =
-		  request.getParameter("holot");
-		  
-		  response.setContentType("text/html;charset=UTF-8"); PrintWriter out =
-		  response.getWriter(); out.println("<br/>" + "Họ lót: " + holot + "<br/>");
-		  out.println("Tên: " + ten);
-		 
+	public CreateCookie() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
-		
-		//Nhận dữ liệu từ FORM
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 		String ten = request.getParameter("ten");
 		String holot = request.getParameter("holot");
-		// Create cookies for first and last names.
-		Cookie firstName = new Cookie("ten",ten);
-		Cookie lastName = new Cookie("holot"
-		,holot);
 
-		// Set expiry date after 24 Hrs for both the cookies.
-		firstName.setMaxAge(60 * 60 * 24);
-		lastName.setMaxAge(60 * 60 * 24);
-		 // Add both the cookies in the response header.
-		response.addCookie(firstName);
-		response.addCookie(lastName);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<br/>" + "Họ lót: " + holot + "<br/>");
+		out.println("Tên: " + ten);
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
 		PrintWriter out = response.getWriter();
-		 out.println("<b>First Name</b>: " + firstName.getValue() + " - <b>Last Name</b>: " +
-		lastName.getValue());
+		
+		if (username == null || password == null || username.isBlank() || password.isBlank()) {
+			out.println("<h1 style='color:red'>Vui lòng nhập đầy đủ tài khoản và mật khẩu</h1>");
+	        return;
+	    }
+		
+		if ("thiendang".equals(username) && "23110203".equals(password)) {
+
+			Cookie userCookie = new Cookie("username", username);
+			userCookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(userCookie);
+
+			out.println("<h1>Đăng nhập thành công! Xin chào " + username + "</h1>");
+			response.sendRedirect(request.getContextPath() + "/home");
+
+		} else {
+			out.println("<h1 style='color:red'>Sai tài khoản hoặc mật khẩu!</h1>");
+		}
 	}
 
 }

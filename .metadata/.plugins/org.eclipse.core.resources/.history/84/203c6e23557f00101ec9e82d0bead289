@@ -1,0 +1,76 @@
+package Login;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class CreateSession
+ */
+@WebServlet("/CreateSession")
+public class CreateSession extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public CreateSession() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+	    request.setCharacterEncoding("UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    response.setContentType("text/html");
+
+	    String username = request.getParameter("username");
+	    String password = request.getParameter("password");
+
+	    if (username == null || password == null || username.isBlank() || password.isBlank()) {
+	        request.setAttribute("Lỗi", "Vui lòng nhập đủ tài khoản và mật khẩu");
+	        request.getRequestDispatcher("/login.jsp").forward(request, response);
+	        return;
+	    }
+
+	    boolean ok = "admin".equals(username) && "123456".equals(password);
+	    if (!ok) {
+	        request.setAttribute("error", "Sai tài khoản hoặc mật khẩu");
+	        request.getRequestDispatcher("/login.jsp").forward(request, response);
+	        return;
+	    }
+
+	    // 5) Tạo/đổi Session an toàn
+	    HttpSession session = request.getSession(true);
+	    // Ngăn session fixation nếu server hỗ trợ (Servlet 3.1+)
+	    try { request.changeSessionId(); } catch (UnsupportedOperationException ignore) {}
+
+	    // 6) Chỉ lưu thông tin KHÔNG NHẠY CẢM
+	    session.setAttribute("username", username);
+	    // TUYỆT ĐỐI không lưu password vào session
+	    session.setMaxInactiveInterval(30 * 60); // 30 phút
+
+	    // 7) PRG pattern: redirect sau khi đăng nhập
+	    response.sendRedirect(request.getContextPath() + "/home");
+	}
+
+}

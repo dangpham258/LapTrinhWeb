@@ -2,7 +2,6 @@ package Login;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,14 +32,9 @@ public class HomeController extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 
-		String ten = request.getParameter("ten");
-		String holot = request.getParameter("holot");
-
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.println("<br/>" + "Họ lót: " + holot + "<br/>");
-		out.println("Tên: " + ten);
-
+		out.println("<h1> Welcome to my Web");
 	}
 
 	/**

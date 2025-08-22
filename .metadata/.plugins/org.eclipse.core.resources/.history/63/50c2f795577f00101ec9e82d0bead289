@@ -1,0 +1,78 @@
+package Login;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Servlet implementation class CreateCookie
+ */
+@WebServlet("/CreateCookie")
+public class CreateCookie extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public CreateCookie() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		String ten = request.getParameter("ten");
+		String holot = request.getParameter("holot");
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.println("<br/>" + "Họ lót: " + holot + "<br/>");
+		out.println("Tên: " + ten);
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+
+		response.setContentType("text/html;charset=UTF-8");
+		request.setCharacterEncoding("UTF-8");
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+
+		PrintWriter out = response.getWriter();
+
+		if ("thiendang".equals(username) && "23110203".equals(password)) {
+
+			Cookie userCookie = new Cookie("username", username);
+			userCookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(userCookie);
+
+			out.println("<h2>Đăng nhập thành công! Xin chào " + username + "</h2>");
+			out.println("<a href='home'>Vào trang chủ</a>");
+
+		} else {
+			out.println("<h2 style='color:red'>Sai tài khoản hoặc mật khẩu!</h2>");
+			out.println("<a href='login.jsp'>Thử lại</a>");
+		}
+	}
+
+}
